@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deadshot Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <div id="matchOverlay" class="match-overlay">
+        <div class="overlay-card">
+          <div class="overlay-tag">Live Match</div>
+          <h1 id="overlayTitle">Shadow Valley</h1>
+          <p id="overlayText">Deploying to ranked battle. Move in, hold angles, and outplay the squad.</p>
+          <div class="overlay-actions">
+            <button id="queueButton" type="button">Queue Ready</button>
+            <span>WASD • Mouse • Click</span>
+          </div>
+        </div>
+      </div>
+
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">D</div>
+          <div>
+            <div class="brand-name">Deadshot</div>
+            <div class="brand-sub">Arena</div>
+          </div>
+        </div>
+
+        <nav class="topnav">
+          <span class="nav-item active">Battle</span>
+          <span class="nav-item">Modes</span>
+          <span class="nav-item">Inventory</span>
+          <span class="nav-item">Season</span>
+        </nav>
+
+        <div class="profile-pill">
+          <span class="avatar">V</span>
+          <div>
+            <strong>vish</strong>
+            <small>Rank #217</small>
+          </div>
+        </div>
+      </header>
+
+      <main class="game-layout">
+        <aside class="sidebar left-panel">
+          <div class="panel-block">
+            <div class="panel-header">
+              <span>Match Feed</span>
+              <span class="tiny-badge">LIVE</span>
+            </div>
+            <ul class="feed-list">
+              <li><span class="dot green"></span> 2v2 squad queued</li>
+              <li><span class="dot orange"></span> Dust storm in progress</li>
+              <li><span class="dot blue"></span> Ammo crate respawn in 12s</li>
+            </ul>
+          </div>
+
+          <div class="panel-block stat-panel">
+            <div class="panel-header">
+              <span>Loadout</span>
+              <span class="tiny-badge alt">R6</span>
+            </div>
+            <div class="weapon-card">
+              <div class="weapon-top">
+                <span id="weaponLabel">Ranger 9</span>
+                <span id="weaponMode">Auto</span>
+              </div>
+              <div class="weapon-bar"><span id="weaponBar" style="width: 82%"></span></div>
+              <div class="weapon-meta">
+                <span id="damageLabel">Damage 82</span>
+                <span id="speedLabel">Speed 74</span>
+              </div>
+            </div>
+            <div class="mini-stats">
+              <div><small>Recoil</small><strong id="recoilValue">Low</strong></div>
+              <div><small>Range</small><strong id="rangeValue">Mid</strong></div>
+              <div><small>Ammo</small><strong id="ammoValue">28</strong></div>
+            </div>
+          </div>
+        </aside>
+
+        <section class="arena-panel">
+          <div class="arena-header">
+            <div class="arena-title">
+              <span class="game-tag">Ranked</span>
+              <strong>Shadow Valley</strong>
+            </div>
+            <div class="arena-status">
+              <span id="matchStateText">Lobby</span>
+              <span id="countdownValue" class="countdown-pill">05</span>
+              <span id="playerCountText">Players: 1 / 24</span>
+              <span class="status-dot"></span>
+            </div>
+          </div>
+
+          <canvas id="gameCanvas" width="1280" height="720"></canvas>
+
+          <div class="hud">
+            <div class="hud-group health-group">
+              <span>HP</span>
+              <div class="health-bar">
+                <span id="healthFill"></span>
+              </div>
+              <strong id="healthValue">100</strong>
+            </div>
+
+            <div class="hud-group center-group">
+              <span class="small-label">Kills</span>
+              <strong id="killsValue">0</strong>
+            </div>
+
+            <div class="hud-group center-group">
+              <span class="small-label">Score</span>
+              <strong id="scoreValue">0</strong>
+            </div>
+
+            <div class="hud-group center-group">
+              <span class="small-label">Ping</span>
+              <strong id="pingValue">18ms</strong>
+            </div>
+          </div>
+
+          <div id="crosshair" aria-hidden="true"></div>
+        </section>
+
+        <aside class="sidebar right-panel">
+          <div class="panel-block">
+            <div class="panel-header">
+              <span>Squad Board</span>
+              <span id="roundBadge" class="tiny-badge alt">R1</span>
+            </div>
+            <div class="score-row">
+              <div class="team-score red">
+                <span>Red</span>
+                <strong id="redScore">0</strong>
+              </div>
+              <div class="team-score blue">
+                <span>Blue</span>
+                <strong id="blueScore">0</strong>
+              </div>
+            </div>
+            <ul id="scoreboardList" class="scoreboard-list"></ul>
+          </div>
+
+          <div class="panel-block">
+            <div class="panel-header">
+              <span>Kill Feed</span>
+              <span class="tiny-badge alt">Live</span>
+            </div>
+            <ul id="killFeed" class="kill-feed"></ul>
+          </div>
+
+          <div class="panel-block">
+            <div class="panel-header">
+              <span>Session</span>
+              <span class="tiny-badge alt">LIVE</span>
+            </div>
+            <div class="session-box">
+              <div>
+                <small>Weapon</small>
+                <strong id="sessionWeapon">Ranger 9</strong>
+              </div>
+              <div>
+                <small>Ping</small>
+                <strong id="sessionPing">18ms</strong>
+              </div>
+              <div>
+                <small>Team</small>
+                <strong id="sessionTeam">Red</strong>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
